@@ -18,7 +18,7 @@ interface Set extends  BaseSet, HasElement, HasElementById
     public function symmetricDifferenceWith(Set ...$sets): Set;
     
     /**
-     * @param callable(Element):bool
+     * @param callable(Element):bool $filterFn
      */
     public function filter(callable $filterFn): Set;
 }

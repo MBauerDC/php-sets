@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace MBauer\PhpSets\contracts;
 
+
 /**
  * @template T
  */
@@ -25,44 +26,42 @@ interface TypedSet extends BaseSet, HasTypedElement, HasElementById
      */
     public function clone(): TypedSet;
 
+    /**
+     * @return Set
+     */
     public function cloneAsSet(): Set;
 
     /**
-     * @param TypedSet<T> $sets
+     * @param TypedSet<T> $set
      */
-    public function withoutSet(TypedSet ...$sets): bool;
+    public function isSubsetOf(TypedSet $set): bool;
 
     /**
-     * @param TypedSet<T> $sets
-     */
-    public function isSubsetOf(TypedSet ...$sets): bool;
-
-    /**
-     * @param TypedSet<T> $sets
+     * @param TypedSet<T>[] $sets
      * @return TypedSet<T>
      */
     public function intersectWith(TypedSet ...$sets): TypedSet;
 
     /**
-     * @param TypedSet<T> $sets
+     * @param TypedSet<T>[] $sets
      * @return TypedSet<T>
      */
     public function unionWith(TypedSet ...$sets): TypedSet;
     
     /**
-     * @param TypedSet<T> $sets
+     * @param TypedSet<T>[] $sets
      * @return TypedSet<T>
      */
     public function without(TypedSet ...$sets): TypedSet;
 
     /**
-     * @param TypedSet<T> $sets
+     * @param TypedSet<T>[] $sets
      * @return TypedSet<T>
      */
-    public function symmetricDifferenceWith(TypedSet ...$set): TypedSet;
+    public function symmetricDifferenceWith(TypedSet ...$sets): TypedSet;
     
     /**
-     * @param callable(TypedElement<T>):bool
+     * @param callable(TypedElement<T>):bool $filterFn
      * @return TypedSet<T>
      */
     public function filter(callable $filterFn): TypedSet;

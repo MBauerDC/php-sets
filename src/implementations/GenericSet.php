@@ -3,8 +3,13 @@ declare(strict_types=1);
 
 namespace MBauer\PhpSets\implementations;
 
-use MBauer\PhpSets\contracts\Set;
-use MBauer\PhpSets\contracts\Element;
+use Mbauer\PhpSets\contracts\Set;
+use Mbauer\PhpSets\contracts\Element;
+use function array_diff_key;
+use function array_intersect_key;
+use function array_keys;
+use function array_values;
+use function count;
 
 class GenericSet implements Set
 {
@@ -20,7 +25,7 @@ class GenericSet implements Set
      */
     public function getElementIds(): array 
     {
-        return \array_keys($this->elements);
+        return array_keys($this->elements);
     }
 
     protected function addElements(Element ...$els): void
@@ -52,8 +57,8 @@ class GenericSet implements Set
         $theseIds = array_combine($theseIds, $theseIds);
         $thoseIds = $set->getElementIds();
         $thoseIds = array_combine($thoseIds, $thoseIds);
-        $thisCount = \count($theseIds);
-        return \count(\array_intersect_key($thoseIds, $theseIds)) === $thisCount;
+        $thisCount = count($theseIds);
+        return count(array_intersect_key($thoseIds, $theseIds)) === $thisCount;
     }
 
     /**
@@ -61,7 +66,7 @@ class GenericSet implements Set
      */
     public function without(Set ...$sets): Set
     {
-        if (\count($sets) === 0) {
+        if (count($sets) === 0) {
             return $this->clone();
         }
         $new = [];
@@ -86,7 +91,7 @@ class GenericSet implements Set
      */
     public function intersectWith(Set ...$sets): Set
     {
-        if (\count($sets) === 0) {
+        if (count($sets) === 0) {
             return $this->clone();
         }
         $new = [];
@@ -117,7 +122,7 @@ class GenericSet implements Set
             $otherArr = $set->toArray();
             $currArr = $otherArr + $currArr;
         }
-        return new static(...\array_values($currArr));
+        return new static(...array_values($currArr));
     }
 
     /**
@@ -125,15 +130,15 @@ class GenericSet implements Set
      */
     public function symmetricDifferenceWith(Set ...$sets): Set
     {
-        if (\count($sets) === 0) {
+        if (count($sets) === 0) {
             return $this->clone();
         }
         $currArr = $this->toArray();
         foreach ($sets as $set) {
             $otherArr = $set->toArray();
-            $currArr = \array_diff_key($currAr, $otherArr) + \array_diff_key($otherArr, $currArr);
+            $currArr = array_diff_key($currAr, $otherArr) + array_diff_key($otherArr, $currArr);
         }
-        return new static(...\array_values($currArr));
+        return new static(...array_values($currArr));
     }
 
 }

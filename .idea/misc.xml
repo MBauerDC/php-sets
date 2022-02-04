@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="UnattendedHostPersistenceState">
+    <option name="openedFilesInfos">
+      <list>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="519" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/contracts/TypedSet.php" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="111" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/contracts/HasTypedElement.php" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="79" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/contracts/TypedElement.php" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="463" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/contracts/Set.php" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="454" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/implementations/GenericTypedSet.php" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="1485" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/implementations/GenericSet.php" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="86098" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/vendor/composer/autoload_classmap.php" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="153" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/composer.json" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="194" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/contracts/BaseSet.php" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="80" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/contracts/Element.php" />
+        </OpenedFileInfo>
+      </list>
+    </option>
+  </component>
+</project>

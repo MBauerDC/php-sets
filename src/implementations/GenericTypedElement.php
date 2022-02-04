@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace MBauer\PhpSets\implemenetations;
 
-use MBauer\PhpSets\contracts\Element;
-use MBauer\PhpSets\contracts\TypedElement;
+use Mbauer\PhpSets\contracts\Element;
+use Mbauer\PhpSets\contracts\TypedElement;
+use function is_object;
 
 
 class GenericTypedElement implements TypedElement
@@ -27,7 +28,7 @@ class GenericTypedElement implements TypedElement
 
     public function clone(): TypedElement
     {
-        if (\is_object($this->data)) {
+        if (is_object($this->data)) {
             $clonedData = clone $this->data;
         } else {
             $clonedData = $this->data;
@@ -37,7 +38,7 @@ class GenericTypedElement implements TypedElement
 
     public function cloneAsElement(): Element
     {
-        if (\is_object($this->data)) {
+        if (is_object($this->data)) {
             $clonedData = clone $this->data;
         } else {
             $clonedData = $this->data;

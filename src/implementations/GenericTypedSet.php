@@ -1,13 +1,23 @@
 <?php
 declare(strict_types=1);
 
-use MBauer\PhpSets\contracts\Element;
-use MBauer\PhpSets\contracts\Set;
-use MBauer\PhpSets\contracts\TypedElement;
-use MBauer\PhpSets\contracts\TypedSet;
-
 
 namespace MBauer\PhpSets\implementations;
+
+use ArrayIterator;
+use InvalidArgumentException;
+use Mbauer\PhpSets\contracts\Set;
+use Mbauer\PhpSets\contracts\TypedElement;
+use Mbauer\PhpSets\contracts\TypedSet;
+use Traversable;
+use function array_diff_key;
+use function array_filter;
+use function array_intersect_key;
+use function array_key_exists;
+use function array_keys;
+use function array_map;
+use function array_values;
+use function count;
 
 /**
  * @template T
@@ -16,7 +26,7 @@ namespace MBauer\PhpSets\implementations;
 class GenericTypedSet implements TypedSet
 {
     public readonly string $type;
-    protected $elements = [];
+    protected array $elements = [];
 
     /**
      * @param class-string<T> $type
@@ -28,16 +38,38 @@ class GenericTypedSet implements TypedSet
         $this->addElements(...$els);
     }
 
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator($this->elements);
+    }
+
+    public function count(): int
+    {
+        return count($this->elements);
+    }
+
+    public function hasElementById(string $id): bool
+    {
+        return array_key_exists($id, $this->elements);
+    }
+
+    public function hasElement(TypedElement $el): bool
+    {
+        return $this->hasElementById($el->getIdentifier());
+    }
+
+
     /**
      * @inheritdoc
      */
     public function getElementIds(): array 
     {
-        return \array_keys($this->elements);
+        return array_keys($this->elements);
     }
 
     /**
      * @param TypedElement<T>[] $els
+     * @throws InvalidArgumentException
      */
     protected function addElements(TypedElement ...$els): void
     {
@@ -75,8 +107,8 @@ class GenericTypedSet implements TypedSet
         $theseIds = array_combine($theseIds, $theseIds);
         $thoseIds = $set->getElementIds();
         $thoseIds = array_combine($thoseIds, $thoseIds);
-        $thisCount = \count($theseIds);
-        return \count(\array_intersect_key($thoseIds, $theseIds)) === $thisCount;
+        $thisCount = count($theseIds);
+        return count(array_intersect_key($thoseIds, $theseIds)) === $thisCount;
     }
 
 
@@ -87,24 +119,24 @@ class GenericTypedSet implements TypedSet
     protected function filterSetsForSameType(array $sets): array
     {
         $thisType = $this->type;
-        $allTypes = \array_map(static fn(TypedSet $s) => $s->getType(), $sets);
-        $setsCount = \count($sets);
+        $allTypes = array_map(static fn(TypedSet $s) => $s->getType(), $sets);
+        $setsCount = count($sets);
         $setsOfSameType = [];
-        foreach ($i = 0; $i < $setsCount; $i++) {
+        for ($i = 0; $i < $setsCount; $i++) {
             $currType = $allTypes[$i];
             if ($currType === $thisType) {
                 $setsOfSameType[] = $sets[$i];
             }
-        };
+        }
         return $setsOfSameType;
     }
 
     /**
      * @inheritdoc
      */
-    public function without(TypedSet ...$sets): Set
+    public function without(TypedSet ...$sets): TypedSet
     {
-        if (\count($sets) === 0) {
+        if (count($sets) === 0) {
             return $this->clone();
         }
         
@@ -129,15 +161,15 @@ class GenericTypedSet implements TypedSet
     /**
      * @inheritdoc
      */
-    public function intersectWith(Set ...$sets): Set
+    public function intersectWith(TypedSet ...$sets): TypedSet
     {
-        $origCount = \count($sets);
+        $origCount = count($sets);
         if ($origCount === 0) {
             return $this->clone();
         }
         
         $setsOfSameType = $this->filterSetsForSameType($sets);
-        $sameTypeCount = \count($setsOfSameType);
+        $sameTypeCount = count($setsOfSameType);
         if ($origCount !== $sameTypeCount) {
             return new static($this->type);
         }
@@ -162,11 +194,11 @@ class GenericTypedSet implements TypedSet
     /**
      * @inheritdoc
      */
-    public function unionWith(Set ...$sets): Set
+    public function unionWith(TypedSet ...$sets): TypedSet
     {
-        $origCount = \count($sets);
+        $origCount = count($sets);
         $setsOfSameType = $this->filterSetsForSameType($sets);
-        $sameTypeCount = \count($setsOfSameType);
+        $sameTypeCount = count($setsOfSameType);
         if ($origCount !== $sameTypeCount) {
             throw new InvalidArgumentException('Can only union with other TypedSets of type [' . $this->type . '].');
         }
@@ -175,29 +207,80 @@ class GenericTypedSet implements TypedSet
             $otherArr = $set->toArray();
             $currArr = $otherArr + $currArr;
         }
-        return new static($this->type, ...\array_values($currArr));
+        return new static($this->type, ...array_values($currArr));
     }
 
     /**
      * @inheritdoc
      */
-    public function symmetricDifferenceWith(Set ...$sets): Set
+    public function symmetricDifferenceWith(TypedSet ...$sets): TypedSet
     {
-        $origCount = \count($sets);
+        $origCount = count($sets);
         if ($origCount === 0) {
             return $this->clone();
         }
         $setsOfSameType = $this->filterSetsForSameType($sets);
-        $sameTypeCount = \count($setsOfSameType);
+        $sameTypeCount = count($setsOfSameType);
         if ($origCount !== $sameTypeCount) {
             throw new InvalidArgumentException('Can only create symmetric difference with other TypedSets of type [' . $this->type . '].');
         }
         $currArr = $this->toArray();
         foreach ($sets as $set) {
             $otherArr = $set->toArray();
-            $currArr = \array_diff_key($currAr, $otherArr) + \array_diff_key($otherArr, $currArr);
+            $currArr = array_diff_key($currArr, $otherArr) + array_diff_key($otherArr, $currArr);
         }
-        return new static($this->type, ...\array_values($currArr));
+        return new static($this->type, ...array_values($currArr));
     }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getElementById(string $id): ?TypedElement
+    {
+        return $this->elements[$id] ?? null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function clone(): TypedSet
+    {
+        $new = [];
+        foreach ($this as $el) {
+            $new[] = $el->clone();
+        }
+        return new static($this->type, ...$new);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function cloneAsSet(): Set
+    {
+        $new = [];
+        foreach ($this as $el) {
+            $new[] = $el->cloneAsElement();
+        }
+        return new GenericSet( ...$new);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function filter(callable $filterFn): TypedSet
+    {
+        $arr = $this->toArray();
+        $filteredArr = array_filter($arr, $filterFn);
+        return new static($this->type, ...array_values($filteredArr));
+    }
+
 
 }

@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace MBauer\PhpSets\implementations;
 
-use MBauer\PhpSets\contracts\Element;
+use Mbauer\PhpSets\contracts\Element;
+use function is_object;
 
 class GenericElement implements Element
 {   
@@ -24,7 +25,7 @@ class GenericElement implements Element
     public function clone(): Element
     {
 
-        if (\is_object($this->data)) {
+        if (is_object($this->data)) {
             $clonedData = clone $this->data;
         } else {
             $clonedData = $this->data;
