@@ -1,0 +1,23 @@
+{
+    "name": "mbauer/php-sets",
+    "description": "A PHP8.1 library for set data-structures",
+    "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "behat/behat": "^3.10"
+    },
+    "license": "Apache 2.0",
+    "autoload": {
+        "psr-4": {
+            "Mbauer\\PhpSets\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Michael Bauer",
+            "email": "mbauer.mphil@googlemail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
