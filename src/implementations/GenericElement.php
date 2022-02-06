@@ -3,12 +3,15 @@ declare(strict_types=1);
 
 namespace MBauer\PhpSets\implementations;
 
-use Mbauer\PhpSets\contracts\Element;
+use MBauer\PhpSets\contracts\Element;
+use Psalm\Immutable;
+use Psalm\Pure;
 use function is_object;
 
+#[Immutable]
 class GenericElement implements Element
 {   
-    public readonly $id;
+    public readonly string $id;
     public readonly mixed $data;
 
     public function __construct(mixed $data, string $id)
@@ -17,11 +20,13 @@ class GenericElement implements Element
         $this->id = $id;
     }
 
+    #[Pure]
     public function getIdentifier(): string
     {
         return $this->id;
     }
 
+    #[Pure]
     public function clone(): Element
     {
 
@@ -30,6 +35,6 @@ class GenericElement implements Element
         } else {
             $clonedData = $this->data;
         }
-        return new static($clonedData, $this->id);
+        return new self($clonedData, $this->id);
     }
 }

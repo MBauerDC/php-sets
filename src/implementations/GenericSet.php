@@ -3,54 +3,19 @@ declare(strict_types=1);
 
 namespace MBauer\PhpSets\implementations;
 
-use Mbauer\PhpSets\contracts\Set;
-use Mbauer\PhpSets\contracts\Element;
-use function array_diff_key;
-use function array_intersect_key;
-use function array_keys;
-use function array_values;
-use function count;
+use MBauer\PhpSets\contracts\Set;
+use MBauer\PhpSets\contracts\Element;
+use Psalm\Immutable;
+use Psalm\Pure;
+use function array_key_exists;
 
-class GenericSet implements Set
+#[Immutable]
+class GenericSet extends GenericBaseSet implements Set
 {
-    protected $elements = [];
+    use ProvidesElementCheck, ProvidesElements;
 
-    public function __construct(Element ...$els)
-    {
-        $this->addElements(...$els);
-    }
 
-    /**
-     * @inheritdoc
-     */
-    public function getElementIds(): array 
-    {
-        return array_keys($this->elements);
-    }
-
-    protected function addElements(Element ...$els): void
-    {
-        foreach ($els as $el) {
-            $id = $el->getIdentifier();
-            $this->elements[$id] = $el;
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function toArray(): array
-    {
-        $clones = [];
-        foreach ($this->elements as $id => $el) {
-            $clones[$id] = $el->clone();
-        }
-        return $clones;
-    }
-
-    /**
-     * @inheritdoc
-     */
+    #[Pure]
     public function isSubsetOf(Set $set): bool
     {
         $theseIds = $this->getElementIds();
@@ -61,10 +26,8 @@ class GenericSet implements Set
         return count(array_intersect_key($thoseIds, $theseIds)) === $thisCount;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function without(Set ...$sets): Set
+    #[Pure]
+    public function without(Set ...$sets): GenericSet
     {
         if (count($sets) === 0) {
             return $this->clone();
@@ -83,20 +46,18 @@ class GenericSet implements Set
                 $new[] = $el;
             }
         }
-        return new static(...$new);
+        return new self(...$new);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function intersectWith(Set ...$sets): Set
+    #[Pure]
+    public function intersectWith(Set ...$sets): GenericSet
     {
         if (count($sets) === 0) {
             return $this->clone();
         }
         $new = [];
         $theseIds = $this->getElementIds();
-        
+
         foreach ($theseIds as $idFromThis) {
             $inAll = true;
             foreach ($sets as $set) {
@@ -109,26 +70,22 @@ class GenericSet implements Set
                 $new[] = $this->elements[$idFromThis]->clone();
             }
         }
-        return new static(...$new);
+        return new self(...$new);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function unionWith(Set ...$sets): Set
+    #[Pure]
+    public function unionWith(Set ...$sets): GenericSet
     {
         $currArr = $this->toArray();
         foreach ($sets as $set) {
             $otherArr = $set->toArray();
             $currArr = $otherArr + $currArr;
         }
-        return new static(...array_values($currArr));
+        return new self(...array_values($currArr));
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function symmetricDifferenceWith(Set ...$sets): Set
+    #[Pure]
+    public function symmetricDifferenceWith(Set ...$sets): GenericSet
     {
         if (count($sets) === 0) {
             return $this->clone();
@@ -136,9 +93,27 @@ class GenericSet implements Set
         $currArr = $this->toArray();
         foreach ($sets as $set) {
             $otherArr = $set->toArray();
-            $currArr = array_diff_key($currAr, $otherArr) + array_diff_key($otherArr, $currArr);
+            $currArr = array_diff_key($currArr, $otherArr) + array_diff_key($otherArr, $currArr);
         }
-        return new static(...array_values($currArr));
+        return new self(...array_values($currArr));
+    }
+
+    /**
+     * @param pure-callable(Element):bool $filterFn
+     * @return GenericBaseSet
+     */
+    #[Pure]
+    public function filter(callable $filterFn): GenericSet
+    {
+        $newArr = array_map(static fn(Element $el) => $el->clone(),array_filter($this->elements, $filterFn));
+        return new self(...$newArr);
+    }
+
+    #[Pure]
+    public function clone(): GenericSet
+    {
+        $newArr = array_map(static fn(Element $el) => $el->clone(), $this->elements);
+        return new self(...$newArr);
     }
 
 }
