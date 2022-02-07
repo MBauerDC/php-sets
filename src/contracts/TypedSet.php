@@ -60,8 +60,8 @@ interface TypedSet extends BaseSet, HasTypedElement, HasElementById
     public function intersectWith(TypedSet ...$sets): TypedSet;
 
     /**
-     * @psalm-param TypedSet<T> ...$sets
-     * @psalm-return TypedSet<T>
+     * @param TypedSet<T> ...$sets
+     * @return TypedSet<T>
      */
     #[Pure]
     public function unionWith(TypedSet ...$sets): TypedSet;

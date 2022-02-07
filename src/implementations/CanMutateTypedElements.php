@@ -11,7 +11,7 @@ use function array_key_exists;
  */
 trait CanMutateTypedElements
 {
-    use HasElements;
+    use HasMutableElements;
 
     /**
      * @param TypedElement<T> ...$els

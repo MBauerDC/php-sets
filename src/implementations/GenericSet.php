@@ -70,7 +70,8 @@ class GenericSet extends GenericBaseSet implements Set
                 $new[] = $this->elements[$idFromThis]->clone();
             }
         }
-        return new self(...$new);
+        $new = new self(...$new);
+        return $new;
     }
 
     #[Pure]
@@ -81,7 +82,9 @@ class GenericSet extends GenericBaseSet implements Set
             $otherArr = $set->toArray();
             $currArr = $otherArr + $currArr;
         }
-        return new self(...array_values($currArr));
+        $new = new self(...($currArr));
+        return $new;
+
     }
 
     #[Pure]
@@ -95,7 +98,7 @@ class GenericSet extends GenericBaseSet implements Set
             $otherArr = $set->toArray();
             $currArr = array_diff_key($currArr, $otherArr) + array_diff_key($otherArr, $currArr);
         }
-        return new self(...array_values($currArr));
+        return new self(...($currArr));
     }
 
     /**
@@ -105,8 +108,9 @@ class GenericSet extends GenericBaseSet implements Set
     #[Pure]
     public function filter(callable $filterFn): GenericSet
     {
-        $newArr = array_map(static fn(Element $el) => $el->clone(),array_filter($this->elements, $filterFn));
-        return new self(...$newArr);
+        $filtered = array_filter($this->elements, $filterFn);
+        $cloned = array_map(static fn(Element $el) => $el->clone(), $filtered);
+        return new self(...$cloned);
     }
 
     #[Pure]

@@ -15,8 +15,7 @@ abstract class GenericBaseSet implements BaseSet
     public function __construct(Element ...$els)
     {
         foreach ($els as $el) {
-            $id = $el->getIdentifier();
-            $this->elements[$id] = $el;
+            $this->elements[$el->getIdentifier()] = $el;
         }
     }
 

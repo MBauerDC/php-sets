@@ -20,7 +20,8 @@ trait ProvidesTypedElementCheck
     #[Pure]
     public function hasElement(TypedElement $el): bool
     {
-        if ($el->getType() !== $this->type) {
+        if ($el->type !== $this->type) {
+            echo PHP_EOL . " ACTUAL TYPE [{$el->getType()}] not equal to required type [{$this->type}]" . PHP_EOL;
             return false;
         }
         return $this->hasElementById($el->getIdentifier());

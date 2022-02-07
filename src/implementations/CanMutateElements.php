@@ -8,7 +8,7 @@ use function array_key_exists;
 
 trait CanMutateElements
 {
-    use HasElements;
+    use HasMutableElements;
 
     public function addElements(Element ...$els): void
     {

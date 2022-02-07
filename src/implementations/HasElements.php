@@ -7,7 +7,7 @@ use Psalm\Pure;
 
 trait HasElements
 {
-    protected array $elements = [];
+    protected array $elements;
 
     /**
      * @return string[]
@@ -15,6 +15,16 @@ trait HasElements
     #[Pure]
     public function getElementIds(): array
     {
-        return array_keys($this->elements);
+        $thisObjectId = spl_object_id($this);
+        static $memo;
+        if (null === $memo) {
+            $memo = [];
+        }
+        if (!\array_key_exists($thisObjectId, $memo)) {
+            $keys = \array_keys($this->elements);
+            $memo[$thisObjectId] = \array_map(static fn(mixed $key): string => (string)$key, $keys);
+        }
+        return $memo[$thisObjectId];
+
     }
 }

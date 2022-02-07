@@ -4,44 +4,44 @@
     <option name="openedFilesInfos">
       <list>
         <OpenedFileInfo>
-          <option name="caretOffset" value="242" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/implementations/ProvidesElementCheck.php" />
+          <option name="caretOffset" value="2857" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/tests/unit/GenericElementTest.php" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="1869" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/tests/unit/ProvidesElementCheckTest.php" />
+          <option name="caretOffset" value="2207" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/implementations/GenericSet.php" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="0" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/implementations/ProvidesTypedElementCheck.php" />
+          <option name="caretOffset" value="9" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/implementations/GenericBaseSet.php" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="617" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/vendor/phpunit/phpunit/src/Framework/MockObject/MockObject.php" />
+          <option name="caretOffset" value="1048" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/tests/unit/GenericBaseSetTest.php" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="27042" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/vendor/phpunit/phpunit/src/Framework/TestCase.php" />
+          <option name="caretOffset" value="512" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/tests/unit/GenericSetTest.php" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="2521" />
+          <option name="caretOffset" value="2454" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/vendor/phpunit/phpunit/src/Framework/MockObject/MockBuilder.php" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="14112" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/vendor/phpunit/phpunit/src/Framework/MockObject/Generator.php" />
+          <option name="caretOffset" value="238" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/implementations/HasElements.php" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="215" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/implementations/ProvidesElements.php" />
+          <option name="caretOffset" value="627" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/contracts/Element.php" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="273" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/tests/unit/ProvidesElementsTest.php" />
+          <option name="caretOffset" value="1834" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/implementations/GenericElement.php" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="81" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/implementations/HasTypeString.php" />
+          <option name="caretOffset" value="1129" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/tests/unit/HasTypeStringTest.php" />
         </OpenedFileInfo>
       </list>
     </option>
