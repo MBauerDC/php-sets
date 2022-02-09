@@ -10,5 +10,5 @@ use MBauer\PhpSets\contracts\MutableSet;
  */
 class GenericMutableSet extends GenericSet implements MutableSet
 {
-    use CanMutateElements;
+    use ProvidesElementMutations;
 }

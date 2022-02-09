@@ -7,7 +7,7 @@ use Psalm\Pure;
 
 trait HasMutableElements
 {
-    protected array $elements = [];
+    use HasElements;
 
     /**
      * @return string[]

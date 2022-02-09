@@ -3,15 +3,16 @@ declare(strict_types=1);
 
 namespace MBauer\PhpSets\implementations;
 
+use InvalidArgumentException;
 use MBauer\PhpSets\contracts\TypedElement;
 use function array_key_exists;
 
 /**
  * @template T of mixed
  */
-trait CanMutateTypedElements
+trait ProvidesTypedElementMutations
 {
-    use HasMutableElements;
+    use HasTypeString, HasMutableElements;
 
     /**
      * @param TypedElement<T> ...$els
@@ -20,6 +21,9 @@ trait CanMutateTypedElements
     public function addElements(TypedElement ...$els): void
     {
         foreach ($els as $el) {
+            if ($this->type !== $el->getType()) {
+                throw new InvalidArgumentException('Can only add Elements of same Type [' . $this->type . ']');
+            }
             $this->elements[$el->getIdentifier()] = $el;
         }
     }

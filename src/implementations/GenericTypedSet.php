@@ -158,18 +158,14 @@ class GenericTypedSet extends GenericBaseSet implements TypedSet
     #[Pure]
     public function unionWith(TypedSet ...$sets): TypedSet
     {
-        $origCount = count($sets);
         $setsOfSameType = $this->filterSetsForSameType($sets);
-        $sameTypeCount = count($setsOfSameType);
-        if ($origCount !== $sameTypeCount) {
-            throw new InvalidArgumentException('Can only union with other TypedSets of type [' . $this->type . '].');
-        }
         $currArr = $this->toArray();
-        foreach ($sets as $set) {
+        foreach ($setsOfSameType as $set) {
             $otherArr = $set->toArray();
             $currArr = $otherArr + $currArr;
         }
-        return new self($this->type, ...array_values($currArr));
+        $newArr = array_values($currArr);
+        return new self($this->type, ...$newArr);
     }
 
     /**

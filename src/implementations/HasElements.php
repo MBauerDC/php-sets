@@ -4,10 +4,20 @@ declare(strict_types=1);
 namespace MBauer\PhpSets\implementations;
 
 use Psalm\Pure;
+use function array_keys;
+use function array_map;
 
 trait HasElements
 {
-    protected array $elements;
+    protected array $elements = [];
+
+    protected ?array $elementIdMemo = null;
+
+    protected function updateElementIdMemo(): void
+    {
+        $keys = array_keys($this->elements);
+        $this->elementIdMemo = array_map(static fn(mixed $key): string => (string)$key, $keys);
+    }
 
     /**
      * @return string[]
@@ -15,16 +25,9 @@ trait HasElements
     #[Pure]
     public function getElementIds(): array
     {
-        $thisObjectId = spl_object_id($this);
-        static $memo;
-        if (null === $memo) {
-            $memo = [];
+        if (null === $this->elementIdMemo) {
+            $this->updateElementIdMemo();
         }
-        if (!\array_key_exists($thisObjectId, $memo)) {
-            $keys = \array_keys($this->elements);
-            $memo[$thisObjectId] = \array_map(static fn(mixed $key): string => (string)$key, $keys);
-        }
-        return $memo[$thisObjectId];
-
+        return $this->elementIdMemo;
     }
 }

@@ -10,5 +10,5 @@ use MBauer\PhpSets\contracts\MutableTypedSet;
  */
 class GenericMutableTypedSet extends GenericTypedSet implements MutableTypedSet
 {
-    use CanMutateTypedElements;
+    use ProvidesTypedElementMutations;
 }

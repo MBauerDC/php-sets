@@ -6,7 +6,7 @@ namespace MBauer\PhpSets\implementations;
 use MBauer\PhpSets\contracts\Element;
 use function array_key_exists;
 
-trait CanMutateElements
+trait ProvidesElementMutations
 {
     use HasMutableElements;
 

@@ -1,11 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace MBauer\PhpSets\test\unit;
+namespace MBauer\PhpSets\test\integration;
 
 use MBauer\PhpSets\contracts\Element;
 use MBauer\PhpSets\implementations\GenericBaseSet;
 use MBauer\PhpSets\implementations\GenericElement;
+use MBauer\PhpSets\test\unit\Pure;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\TestCase;
 use function count;

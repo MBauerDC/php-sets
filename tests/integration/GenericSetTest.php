@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace MBauer\PhpSets\test\unit;
+namespace MBauer\PhpSets\test\integration;
 
 use MBauer\PhpSets\implementations\GenericElement;
 use MBauer\PhpSets\implementations\GenericSet;
 use PHPUnit\Framework\MockObject\MockBuilder;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use function spl_object_id;
 
-class GenericSetTest extends TestCase
+class   GenericSetTest extends TestCase
 {
 
     protected MockBuilder $genericElMockBuilder;

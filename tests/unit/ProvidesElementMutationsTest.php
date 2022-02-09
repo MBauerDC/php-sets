@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace MBauer\PhpSets\test\unit;
 
-use MBauer\PhpSets\implementations\CanMutateTypedElements;
-use MBauer\PhpSets\implementations\GenericTypedElement;
+use MBauer\PhpSets\implementations\ProvidesElementMutations;
+use MBauer\PhpSets\implementations\GenericElement;
 use MBauer\PhpSets\implementations\HasMutableElements;
 use PHPUnit\Framework\TestCase;
 
-class CanMutateTypedElementsTest extends TestCase
+class ProvidesElementMutationsTest extends TestCase
 {
     protected $mock;
     protected $mockEls;
@@ -16,25 +16,25 @@ class CanMutateTypedElementsTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->mockElBuilder = $this->getMockBuilder(GenericTypedElement::class);
-        $mockEl1 = $this->mockElBuilder->setConstructorArgs(['string','','a'])->getMock();
+        $this->mockElBuilder = $this->getMockBuilder(GenericElement::class);
+        $mockEl1 = $this->mockElBuilder->setConstructorArgs(['','a'])->getMock();
         $mockEl1->expects($this->any())->method('getIdentifier')->willReturn('a');
-        $mockEl2 = $this->mockElBuilder->setConstructorArgs(['string','','b'])->getMock();
+        $mockEl2 = $this->mockElBuilder->setConstructorArgs(['','b'])->getMock();
         $mockEl2->expects($this->any())->method('getIdentifier')->willReturn('b');
-        $mockEl3 = $this->mockElBuilder->setConstructorArgs(['string','','3'])->getMock();
+        $mockEl3 = $this->mockElBuilder->setConstructorArgs(['','3'])->getMock();
         $mockEl3->expects($this->any())->method('getIdentifier')->willReturn('3');
-        $mockEl4 = $this->mockElBuilder->setConstructorArgs(['string','','d'])->getMock();
+        $mockEl4 = $this->mockElBuilder->setConstructorArgs(['','d'])->getMock();
         $mockEl4->expects($this->any())->method('getIdentifier')->willReturn('d');
-        $mockEl5 = $this->mockElBuilder->setConstructorArgs(['string','','e'])->getMock();
+        $mockEl5 = $this->mockElBuilder->setConstructorArgs(['','e'])->getMock();
         $mockEl5->expects($this->any())->method('getIdentifier')->willReturn('e');
-        $mockEl6 = $this->mockElBuilder->setConstructorArgs(['string','','f'])->getMock();
+        $mockEl6 = $this->mockElBuilder->setConstructorArgs(['','f'])->getMock();
         $mockEl6->expects($this->any())->method('getIdentifier')->willReturn('f');
         $this->mockEls = [$mockEl1, $mockEl2, $mockEl3, $mockEl4, $mockEl5, $mockEl6];
 
         $this->elementsRef = [];
         $refSetter = fn(array &$els) => $this->elementsRef = &$els;
         $this->mock = new class([$mockEl1, $mockEl2, $mockEl3], $refSetter) {
-            use HasMutableElements, CanMutateTypedElements;
+            use HasMutableElements, ProvidesElementMutations;
             public function __construct($mocks, $refSetter)
             {
                 $this->elements = ['a' => $mocks[0], 'b' => $mocks[1], '3' => $mocks[2]];
