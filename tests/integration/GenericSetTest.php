@@ -282,4 +282,37 @@ class   GenericSetTest extends TestCase
         $diff = \array_diff($actualIds, $expectedIds);
         $this->assertEmpty($diff, 'GenericSet->symmetricDifferenceWith must result in a set with only intended elements.');
     }
+
+    public function testCanUseSetAsElement(): void
+    {
+        $el1 = new GenericElement('a','a');
+        $el2 = new GenericElement('b','b');
+        $el3 = new GenericElement('c','c');
+        $el4 = new GenericElement('d','d');
+
+        try {
+            $set1 = new GenericSet($el1, $el2);
+            $set2 = new GenericSet($el3, $el4, $set1);
+            $this->assertInstanceOf(GenericSet::class, $set2);
+        } catch (\Throwable $t) {
+            $this->fail('Must be able to add set as element to set.');
+        }
+    }
+
+    public function testGetSetUsedAsElement(): void
+    {
+        $el1 = new GenericElement('a','a');
+        $el2 = new GenericElement('b','b');
+        $el3 = new GenericElement('c','c');
+        $el4 = new GenericElement('d','d');
+
+        try {
+            $set1 = new GenericSet($el1, $el2);
+            $set2 = new GenericSet($el3, $el4, $set1);
+            $elements = $set2->toArray();
+            $this->assertInstanceOf(GenericSet::class, $set2);
+        } catch (\Throwable $t) {
+            $this->fail('Must be able to add set as element to set. Error: [' . $t->getMessage() . '].');
+        }
+    }
 }

@@ -331,4 +331,53 @@ class GenericTypedSetTest extends TestCase
         $diff = \array_diff($actualIds, $expectedIds);
         $this->assertEmpty($diff, 'GenericSet->symmetricDifferenceWith must result in a set with only intended elements.');
     }
+
+    public function testCanUseSetAsElement(): void
+    {
+        $el1 = new GenericTypedElement('string', 'a','a');
+        $el2 = new GenericTypedElement('string', 'b','b');
+        $el3 = new GenericTypedElement('string', 'c','c');
+        $el4 = new GenericTypedElement('string', 'd','d');
+
+        try {
+            $set1 = new GenericTypedSet('string', $el1, $el2);
+            $set2 = new GenericTypedSet('string', $el3, $el4, $set1);
+            $this->assertInstanceOf(GenericTypedSet::class, $set2);
+        } catch (\Throwable $t) {
+            $this->fail('Must be able to add set as element to set. Error: [' . $t->getMessage() . '].');
+        }
+    }
+
+    public function testCannotUseSetOfDifferentTypeAsElement(): void
+    {
+        $el1 = new GenericTypedElement('string', 'a','a');
+        $el2 = new GenericTypedElement('string', 'b','b');
+        $el3 = new GenericTypedElement('array', ['c'],'c');
+        $el4 = new GenericTypedElement('array', ['d'],'d');
+
+        try {
+            $set1 = new GenericTypedSet('string', $el1, $el2);
+            $set2 = new GenericTypedSet('array', $el3, $el4, $set1);
+            $this->fail('Must not be able to add set of different type as element to set.');
+        } catch (\Throwable $t) {
+            $this->assertTrue(true);
+        }
+    }
+
+    public function testGetSetUsedAsElement(): void
+    {
+        $el1 = new GenericTypedElement('string', 'a','a');
+        $el2 = new GenericTypedElement('string', 'b','b');
+        $el3 = new GenericTypedElement('string', 'c','c');
+        $el4 = new GenericTypedElement('string', 'd','d');
+
+        try {
+            $set1 = new GenericTypedSet('string', $el1, $el2);
+            $set2 = new GenericTypedSet('string', $el3, $el4, $set1);
+            $elements = $set2->toArray();
+            $this->assertInstanceOf(GenericTypedSet::class, $set2);
+        } catch (\Throwable $t) {
+            $this->fail('Must be able to add set as element to set. Error: [' . $t->getMessage() . '].');
+        }
+    }
 }
