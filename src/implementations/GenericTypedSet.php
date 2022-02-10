@@ -6,6 +6,7 @@ namespace MBauer\PhpSets\implementations;
 
 use ArrayIterator;
 use InvalidArgumentException;
+use MBauer\PhpSets\contracts\Element;
 use MBauer\PhpSets\contracts\Set;
 use MBauer\PhpSets\contracts\TypedElement;
 use MBauer\PhpSets\contracts\TypedSet;
@@ -42,6 +43,7 @@ class GenericTypedSet extends GenericBaseSet implements TypedSet
             $id = $el->getIdentifier();
             $this->elements[$id] = $el;
         }
+        $this->updateHash();
     }
 
     /**
@@ -237,5 +239,28 @@ class GenericTypedSet extends GenericBaseSet implements TypedSet
         return new self($this->type, ...array_values($filteredArr));
     }
 
+    public function cloneAsElement(): Set
+    {
+        return $this->cloneAsSet();
+    }
+
+    public function getPowerSet(): GenericTypedSet
+    {
+        $count = $this->count();
+        $ids = array_keys($this->elements);
+
+        $subsets = [];
+        $size = pow(2, $count);
+        for ($i = 0; $i < $size; $i++) {
+            $newElementSet = [];
+            for ($j = 0; $j < $count; $j++) {
+                if (($i>>$j) & 1) {
+                    $newElementSet[] = $this->elements[$ids[$j]];
+                }
+            }
+            $subsets[] = new GenericTypedSet($this->type, ...$newElementSet);
+        }
+        return new GenericTypedSet($this->type, ...$subsets);
+    }
 
 }

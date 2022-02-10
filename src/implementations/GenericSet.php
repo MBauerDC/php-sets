@@ -120,4 +120,23 @@ class GenericSet extends GenericBaseSet implements Set
         return new self(...$newArr);
     }
 
+    public function getPowerSet(): GenericSet
+    {
+        $count = $this->count();
+        $ids = array_keys($this->elements);
+
+        $subsets = [];
+        $size = pow(2, $count);
+        for ($i = 0; $i < $size; $i++) {
+            $newElementSet = [];
+            for ($j = 0; $j < $count; $j++) {
+                if (($i>>$j) & 1) {
+                    $newElementSet[] = $this->elements[$ids[$j]];
+                }
+            }
+            $subsets[] = new GenericSet(...$newElementSet);
+        }
+        return new GenericSet(...$subsets);
+    }
+
 }

@@ -3,12 +3,17 @@ declare(strict_types=1);
 
 namespace MBauer\PhpSets\contracts;
 
+use ArrayIterator;
 use Psalm\Immutable;
 use Psalm\Pure;
 
 #[Immutable]
-interface Set extends  BaseSet, HasElement, HasElementById
+interface Set extends  BaseSet, Element, HasElement, HasElementById
 {
+    /**
+     * @return array<string, Element>
+     */
+    public function getData(): array;
 
     #[Pure]
     public function isSubsetOf(Set $set): bool;
@@ -33,5 +38,9 @@ interface Set extends  BaseSet, HasElement, HasElementById
 
     #[Pure]
     public function clone(): Set;
+
+    #[Pure]
+    public function getPowerSet(): Set;
+
 }
 

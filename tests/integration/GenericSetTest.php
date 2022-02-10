@@ -315,4 +315,48 @@ class   GenericSetTest extends TestCase
             $this->fail('Must be able to add set as element to set. Error: [' . $t->getMessage() . '].');
         }
     }
+
+    public function testHasElementByIdSucceedsForPresentElement(): void
+    {
+        $el1 = new GenericElement('a','a');
+        $el2 = new GenericElement('b','b');
+        $el3 = new GenericElement('c','c');
+
+        $set = new GenericSet($el1, $el2, $el3);
+        $found = $set->hasElementById('b');
+        $this->assertSame(true, $found, 'GenericSet->hasElementById must return true for present element.');
+    }
+
+    public function testHasElementByIdFailsForMissingElement(): void
+    {
+        $el1 = new GenericElement('a','a');
+        $el2 = new GenericElement('b','b');
+        $el3 = new GenericElement('c','c');
+
+        $set = new GenericSet($el1, $el2, $el3);
+        $found = $set->hasElementById('d');
+        $this->assertSame(false, $found, 'GenericSet->hasElementById must return false for missing element.');
+    }
+
+    public function testGetElementByIdSucceedsForPresentElement(): void
+    {
+        $el1 = new GenericElement('a','a');
+        $el2 = new GenericElement('b','b');
+        $el3 = new GenericElement('c','c');
+
+        $set = new GenericSet($el1, $el2, $el3);
+        $found = $set->getElementById('b');
+        $this->assertSame($el2, $found, 'GenericSet->getElemenetById must return the given element.');
+    }
+
+    public function testGetElementByIdReturnsNullForMissingElement(): void
+    {
+        $el1 = new GenericElement('a','a');
+        $el2 = new GenericElement('b','b');
+        $el3 = new GenericElement('c','c');
+
+        $set = new GenericSet($el1, $el2, $el3);
+        $found = $set->getElementById('d');
+        $this->assertNull($found, 'GenericSet->getElemenetById must return null for missing element.');
+    }
 }

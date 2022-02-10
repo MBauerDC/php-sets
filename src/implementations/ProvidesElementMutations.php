@@ -15,6 +15,7 @@ trait ProvidesElementMutations
         foreach ($els as $el) {
             $this->elements[$el->getIdentifier()] = $el;
         }
+        $this->updateHash();
     }
 
     public function removeElements(Element ...$els): void
@@ -25,6 +26,7 @@ trait ProvidesElementMutations
                 unset($this->elements[$id]);
             }
         }
+        $this->updateHash();
     }
 
     public function removeElementsById(string ...$ids): void
@@ -34,5 +36,6 @@ trait ProvidesElementMutations
                 unset($this->elements[$id]);
             }
         }
+        $this->updateHash();
     }
 }

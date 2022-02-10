@@ -11,10 +11,17 @@ use Psalm\Pure;
 /**
  * @template T as mixed
  * @extends HasTypedElement<T>
+ * @extends TypedElement<T>
  */
 #[Immutable]
-interface TypedSet extends BaseSet, HasTypedElement, HasElementById
-{   
+interface TypedSet extends BaseSet, TypedElement, HasTypedElement, HasElementById
+{
+
+    /**
+     * @return array<string, TypedElement<T>>
+     */
+    public function getData(): array;
+
     /**
      * @return array<string, TypedElement<T>>
      */
@@ -90,6 +97,10 @@ interface TypedSet extends BaseSet, HasTypedElement, HasElementById
     /**
      * @return ArrayIterator<string,TypedElement<T>>
      */
+    #[Pure]
     public function getIterator(): ArrayIterator;
+
+    #[Pure]
+    public function getPowerSet(): TypedSet;
 
 }

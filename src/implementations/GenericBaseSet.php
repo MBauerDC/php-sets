@@ -17,6 +17,22 @@ abstract class GenericBaseSet implements BaseSet
         foreach ($els as $el) {
             $this->elements[$el->getIdentifier()] = $el;
         }
+        $this->updateHash();
+    }
+
+    #[Pure]
+    public function getIdentifier(): string
+    {
+        return $this->hash;
+    }
+
+    /**
+     * @return array<string, Element>
+     */
+    #[Pure]
+    public function getData(): array
+    {
+        return $this->toArray();
     }
 
     /**

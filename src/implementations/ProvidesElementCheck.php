@@ -5,6 +5,7 @@ namespace MBauer\PhpSets\implementations;
 
 use MBauer\PhpSets\contracts\Element;
 use Psalm\Pure;
+use function array_key_exists;
 
 trait ProvidesElementCheck
 {

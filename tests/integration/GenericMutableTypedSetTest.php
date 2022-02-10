@@ -472,4 +472,48 @@ class GenericMutableTypedSetTest extends TestCase
         $diff = \array_diff($actualIds, $expectedIds);
         $this->assertEmpty($diff, 'GenericMutableTypedSet->removeElementsById must result in a set with only intended elements.');
     }
+
+    public function testHasElementByIdSucceedsForPresentElement(): void
+    {
+        $el1 = new GenericTypedElement('string', 'a','a');
+        $el2 = new GenericTypedElement('string', 'b','b');
+        $el3 = new GenericTypedElement('string', 'c','c');
+
+        $set = new GenericMutableTypedSet('string', $el1, $el2, $el3);
+        $found = $set->hasElementById('b');
+        $this->assertSame(true, $found, 'GenericMutableTypedSet->hasElementById must return true for present element.');
+    }
+
+    public function testHasElementByIdFailsForMissingElement(): void
+    {
+        $el1 = new GenericTypedElement('string','a','a');
+        $el2 = new GenericTypedElement('string','b','b');
+        $el3 = new GenericTypedElement('string','c','c');
+
+        $set = new GenericMutableTypedSet('string', $el1, $el2, $el3);
+        $found = $set->hasElementById('d');
+        $this->assertSame(false, $found, 'GenericMutableTypedSet->hasElementById must return false for missing element.');
+    }
+
+    public function testGetElementByIdSucceedsForPresentElement(): void
+    {
+        $el1 = new GenericTypedElement('string', 'a','a');
+        $el2 = new GenericTypedElement('string', 'b','b');
+        $el3 = new GenericTypedElement('string', 'c','c');
+
+        $set = new GenericMutableTypedSet('string', $el1, $el2, $el3);
+        $found = $set->getElementById('b');
+        $this->assertSame($el2, $found, 'GenericMutableTypedSet->getElemenetById must return the given element.');
+    }
+
+    public function testGetElementByIdReturnsNullForMissingElement(): void
+    {
+        $el1 = new GenericTypedElement('string','a','a');
+        $el2 = new GenericTypedElement('string','b','b');
+        $el3 = new GenericTypedElement('string','c','c');
+
+        $set = new GenericMutableTypedSet('string', $el1, $el2, $el3);
+        $found = $set->getElementById('d');
+        $this->assertNull($found, 'GenericSet->getElemenetById must return null for missing element.');
+    }
 }

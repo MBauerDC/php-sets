@@ -4,14 +4,24 @@ declare(strict_types=1);
 namespace MBauer\PhpSets\implementations;
 
 use Psalm\Pure;
+use function array_key_exists;
 use function array_keys;
 use function array_map;
+use function implode;
 
 trait HasElements
 {
     protected array $elements = [];
 
     protected ?array $elementIdMemo = null;
+
+    protected string $hash;
+
+    protected function updateHash(): void
+    {
+        $stringToHash = implode('|', $this->getElementIds());
+        $this->hash = hash('murmur3f', $stringToHash);
+    }
 
     protected function updateElementIdMemo(): void
     {
@@ -30,4 +40,5 @@ trait HasElements
         }
         return $this->elementIdMemo;
     }
+
 }
